@@ -13,32 +13,71 @@ print("Effective Address =", address)
 print("Address in Binary =", bin(address))
 
 
-//Height of a Tree
+//Height of a tree
 class Node:
     def __init__(self, data):
         self.data = data
         self.left = None
         self.right = None
+
+
+def create_tree():
+    data = int(input("Enter node value (-1 for no node): "))
+
+    if data == -1:
+        return None
+
+    node = Node(data)
+
+    print("Enter left child of", data)
+    node.left = create_tree()
+
+    print("Enter right child of", data)
+    node.right = create_tree()
+
+    return node
 
 
 def height(root):
     if root is None:
         return 0
 
-    return 1 + max(height(root.left), height(root.right))
+    left_height = height(root.left)
+    right_height = height(root.right)
+
+    return 1 + max(left_height, right_height)
 
 
-root = Node(1)
-root.left = Node(2)
-root.right = Node(3)
+# Main
+print("Create Binary Tree")
+root = create_tree()
 
+print("Height of the tree =", height(root))
 
-//Number of Nodes in a Tree
+//number of node in a tree
+  
 class Node:
     def __init__(self, data):
         self.data = data
         self.left = None
         self.right = None
+
+
+def create_tree():
+    data = int(input("Enter node value (-1 for no node): "))
+
+    if data == -1:
+        return None
+
+    node = Node(data)
+
+    print("Enter left child of", data)
+    node.left = create_tree()
+
+    print("Enter right child of", data)
+    node.right = create_tree()
+
+    return node
 
 
 def count_nodes(root):
@@ -48,21 +87,13 @@ def count_nodes(root):
     return 1 + count_nodes(root.left) + count_nodes(root.right)
 
 
-root = Node(1)
-root.left = Node(2)
-root.right = Node(3)
-root.left.left = Node(4)
-root.left.right = Node(5)
+# Main
+print("Create Binary Tree")
+root = create_tree()
 
-print("Number of Nodes =", count_nodes(root))
+print("Number of nodes =", count_nodes(root))
 
-root.left.left = Node(4)
-root.left.right = Node(5)
-
-print("Height of Tree =", height(root))
-
-
-//Number of Internal Nodes
+//number of internal node
 class Node:
     def __init__(self, data):
         self.data = data
@@ -70,250 +101,367 @@ class Node:
         self.right = None
 
 
-def count_internal(root):
-    if root is None or (root.left is None and root.right is None):
-        return 0
+def create_tree():
+    data = int(input("Enter node value (-1 for no node): "))
 
-    return 1 + count_internal(root.left) + count_internal(root.right)
+    if data == -1:
+        return None
 
+    node = Node(data)
 
-root = Node(1)
-root.left = Node(2)
-root.right = Node(3)
-root.left.left = Node(4)
-root.left.right = Node(5)
+    print("Enter left child of", data)
+    node.left = create_tree()
 
-print("Number of Internal Nodes =", count_internal(root))
+    print("Enter right child of", data)
+    node.right = create_tree()
 
-
-//Number of Leaf Nodes
-class Node:
-    def __init__(self, data):
-        self.data = data
-        self.left = None
-        self.right = None
+    return node
 
 
-def count_leaf(root):
+def count_internal_nodes(root):
     if root is None:
         return 0
 
+    # Leaf node হলে internal node নয়
+    if root.left is None and root.right is None:
+        return 0
+
+    return 1 + count_internal_nodes(root.left) + count_internal_nodes(root.right)
+
+
+# Main
+print("Create Binary Tree")
+root = create_tree()
+
+print("Number of internal nodes =", count_internal_nodes(root))
+
+//number of leaf node
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+
+def create_tree():
+    data = int(input("Enter node value (-1 for no node): "))
+
+    if data == -1:
+        return None
+
+    node = Node(data)
+
+    print("Enter left child of", data)
+    node.left = create_tree()
+
+    print("Enter right child of", data)
+    node.right = create_tree()
+
+    return node
+
+
+def count_leaf_nodes(root):
+    if root is None:
+        return 0
+
+    # Leaf node: no left child and no right child
     if root.left is None and root.right is None:
         return 1
 
-    return count_leaf(root.left) + count_leaf(root.right)
+    return count_leaf_nodes(root.left) + count_leaf_nodes(root.right)
 
 
-root = Node(1)
-root.left = Node(2)
-root.right = Node(3)
-root.left.left = Node(4)
-root.left.right = Node(5)
+# Main
+print("Create Binary Tree")
+root = create_tree()
 
-print("Number of Leaf Nodes =", count_leaf(root))
-
+print("Number of leaf nodes =", count_leaf_nodes(root))
 
 //Binary Search
-arr = list(map(int, input("Enter sorted elements: ").split()))
+def binary_search(arr, key):
+    low = 0
+    high = len(arr) - 1
+
+    while low <= high:
+        mid = (low + high) // 2
+
+        if arr[mid] == key:
+            return mid
+
+        elif arr[mid] < key:
+            low = mid + 1
+
+        else:
+            high = mid - 1
+
+    return -1
+
+
+# User input
+n = int(input("Enter number of elements: "))
+
+arr = []
+
+for i in range(n):
+    value = int(input("Enter element: "))
+    arr.append(value)
+
+# Binary search requires sorted array
+arr.sort()
+
+print("Sorted array:", arr)
+
 key = int(input("Enter element to search: "))
 
-low = 0
-high = len(arr) - 1
-found = False
+result = binary_search(arr, key)
 
-while low <= high:
-    mid = (low + high) // 2
-
-    if arr[mid] == key:
-        print("Element found at index", mid)
-        found = True
-        break
-    elif arr[mid] < key:
-        low = mid + 1
-    else:
-        high = mid - 1
-
-if not found:
+if result != -1:
+    print("Element found at index", result)
+else:
     print("Element not found")
 
+//effective address of a 1d array
 
-//Effective Address of 1D Array
+# Effective Address of 1D Array
+
+n = int(input("Enter number of elements: "))
+
+arr = []
+
+for i in range(n):
+    value = int(input("Enter element: "))
+    arr.append(value)
+
 base = int(input("Enter base address: "))
 index = int(input("Enter index: "))
-size = int(input("Enter size of each element: "))
+size = int(input("Enter size of each element (in bytes): "))
 
-address = base + index * size
+effective_address = base + (index * size)
 
-print("Effective Address =", address)
+print("Array:", arr)
+print("Effective Address =", effective_address)
 
+//effective address of 2d array column major
+# Effective Address of 2D Array - Column Major
 
-//Effective Address of 2D Array — Column Major
-base = int(input("Enter base address: "))
 rows = int(input("Enter number of rows: "))
 cols = int(input("Enter number of columns: "))
-size = int(input("Enter size of each element: "))
+
+arr = []
+
+for i in range(rows):
+    row = []
+    for j in range(cols):
+        value = int(input(f"Enter element [{i}][{j}]: "))
+        row.append(value)
+    arr.append(row)
+
+base = int(input("Enter base address: "))
 i = int(input("Enter row index: "))
 j = int(input("Enter column index: "))
+size = int(input("Enter size of each element (in bytes): "))
 
-address = base + ((j * rows + i) * size)
+effective_address = base + ((j * rows) + i) * size
 
-print("Effective Address =", address)
+print("Effective Address =", effective_address)
 
+//insersion and deletion in an array
+# Insertion and Deletion in Array
 
-//Insertion and Deletion in Array
-arr = list(map(int, input("Enter array elements: ").split()))
+n = int(input("Enter number of elements: "))
+
+arr = []
+
+for i in range(n):
+    value = int(input("Enter element: "))
+    arr.append(value)
+
+print("Original array:", arr)
 
 # Insertion
-pos = int(input("Enter insertion position: "))
-value = int(input("Enter value: "))
+pos = int(input("Enter position for insertion: "))
+value = int(input("Enter value to insert: "))
 
 arr.insert(pos, value)
-print("After Insertion:", arr)
+
+print("Array after insertion:", arr)
 
 # Deletion
-pos = int(input("Enter deletion position: "))
+pos = int(input("Enter position for deletion: "))
 
 if 0 <= pos < len(arr):
     arr.pop(pos)
-    print("After Deletion:", arr)
+    print("Array after deletion:", arr)
 else:
     print("Invalid position")
 
+//adjacency matrix
+vertices = int(input("Enter number of vertices: "))
+edges = int(input("Enter number of edges: "))
 
-    //Adjacency Matrix and Adjacency List
-     n = int(input("Enter number of vertices: "))
-e = int(input("Enter number of edges: "))
+matrix = [[0 for _ in range(vertices)] for _ in range(vertices)]
 
-matrix = [[0] * n for _ in range(n)]
-adj_list = [[] for _ in range(n)]
-
-for _ in range(e):
-    u, v = map(int, input("Enter edge (u v): ").split())
+for i in range(edges):
+    u = int(input("Enter source vertex: "))
+    v = int(input("Enter destination vertex: "))
 
     matrix[u][v] = 1
     matrix[v][u] = 1
 
-    adj_list[u].append(v)
-    adj_list[v].append(u)
-
 print("\nAdjacency Matrix:")
+
 for row in matrix:
     print(row)
 
+//adjacency list
+vertices = int(input("Enter number of vertices: "))
+edges = int(input("Enter number of edges: "))
+
+graph = [[] for _ in range(vertices)]
+
+for i in range(edges):
+    u = int(input("Enter source vertex: "))
+    v = int(input("Enter destination vertex: "))
+
+    graph[u].append(v)
+    graph[v].append(u)
+
 print("\nAdjacency List:")
-for i in range(n):
-    print(i, ":", adj_list[i])
 
+for i in range(vertices):
+    print(i, "->", graph[i])
 
-   //BFS
-   from collections import deque
+//BFS
+from collections import deque
 
-n = int(input("Enter number of vertices: "))
-e = int(input("Enter number of edges: "))
+vertices = int(input("Enter number of vertices: "))
+edges = int(input("Enter number of edges: "))
 
-graph = [[] for _ in range(n)]
+graph = [[] for _ in range(vertices)]
 
-for _ in range(e):
-    u, v = map(int, input("Enter edge: ").split())
+for i in range(edges):
+    u = int(input("Enter source vertex: "))
+    v = int(input("Enter destination vertex: "))
+
     graph[u].append(v)
     graph[v].append(u)
 
 start = int(input("Enter starting vertex: "))
 
-visited = [False] * n
-queue = deque([start])
-visited[start] = True
+visited = [False] * vertices
+queue = deque()
 
-print("BFS Traversal:")
+visited[start] = True
+queue.append(start)
+
+print("BFS Traversal:", end=" ")
 
 while queue:
     vertex = queue.popleft()
     print(vertex, end=" ")
 
-    for neighbour in graph[vertex]:
-        if not visited[neighbour]:
-            visited[neighbour] = True
-            queue.append(neighbour)
-
+    for neighbor in graph[vertex]:
+        if not visited[neighbor]:
+            visited[neighbor] = True
+            queue.append(neighbor)
 
 //DFS
-n = int(input("Enter number of vertices: "))
-e = int(input("Enter number of edges: "))
+vertices = int(input("Enter number of vertices: "))
+edges = int(input("Enter number of edges: "))
 
-graph = [[] for _ in range(n)]
+graph = [[] for _ in range(vertices)]
 
-for _ in range(e):
-    u, v = map(int, input("Enter edge: ").split())
+for i in range(edges):
+    u = int(input("Enter source vertex: "))
+    v = int(input("Enter destination vertex: "))
+
     graph[u].append(v)
     graph[v].append(u)
 
-visited = [False] * n
+
+visited = [False] * vertices
 
 
 def dfs(vertex):
     visited[vertex] = True
     print(vertex, end=" ")
 
-    for neighbour in graph[vertex]:
-        if not visited[neighbour]:
-            dfs(neighbour)
+    for neighbor in graph[vertex]:
+        if not visited[neighbor]:
+            dfs(neighbor)
 
 
 start = int(input("Enter starting vertex: "))
 
-print("DFS Traversal:")
+print("DFS Traversal:", end=" ")
 dfs(start)
 
+//PRIMS ALGO
+vertices = int(input("Enter number of vertices: "))
+edges = int(input("Enter number of edges: "))
 
-//Prim's Algorithm
-n = int(input("Enter number of vertices: "))
+graph = [[] for _ in range(vertices)]
 
-graph = []
+for i in range(edges):
+    u = int(input("Enter source vertex: "))
+    v = int(input("Enter destination vertex: "))
+    w = int(input("Enter weight: "))
 
-print("Enter adjacency matrix:")
-for _ in range(n):
-    graph.append(list(map(int, input().split())))
+    graph[u].append((v, w))
+    graph[v].append((u, w))
 
-selected = [False] * n
-selected[0] = True
 
+visited = [False] * vertices
 total_cost = 0
 
-print("Edges in MST:")
+# Start from vertex 0
+visited[0] = True
 
-for _ in range(n - 1):
+print("\nEdges in Minimum Spanning Tree:")
+
+for _ in range(vertices - 1):
+
     minimum = float('inf')
-    x = y = -1
+    selected_u = -1
+    selected_v = -1
 
-    for i in range(n):
-        if selected[i]:
-            for j in range(n):
-                if not selected[j] and graph[i][j] != 0:
-                    if graph[i][j] < minimum:
-                        minimum = graph[i][j]
-                        x = i
-                        y = j
+    for u in range(vertices):
+        if visited[u]:
+            for v, weight in graph[u]:
+                if not visited[v] and weight < minimum:
+                    minimum = weight
+                    selected_u = u
+                    selected_v = v
 
-    print(x, "--", y, "=", minimum)
+    if selected_v == -1:
+        break
+
+    print(selected_u, "--", selected_v, "=", minimum)
+
     total_cost += minimum
-    selected[y] = True
+    visited[selected_v] = True
+
 
 print("Minimum Cost =", total_cost)
 
+//Kruskal algo
+vertices = int(input("Enter number of vertices: "))
+edges = int(input("Enter number of edges: "))
 
-//Kruskal's Algorithm
-n = int(input("Enter number of vertices: "))
-e = int(input("Enter number of edges: "))
+edge_list = []
 
-edges = []
+for i in range(edges):
+    u = int(input("Enter source vertex: "))
+    v = int(input("Enter destination vertex: "))
+    w = int(input("Enter weight: "))
 
-for _ in range(e):
-    u, v, w = map(int, input("Enter u v weight: ").split())
-    edges.append((w, u, v))
+    edge_list.append((w, u, v))
 
-edges.sort()
 
-parent = list(range(n))
+# Sort edges by weight
+edge_list.sort()
+
+parent = list(range(vertices))
 
 
 def find(x):
@@ -323,151 +471,137 @@ def find(x):
 
 
 def union(a, b):
-    a = find(a)
-    b = find(b)
+    root_a = find(a)
+    root_b = find(b)
 
-    if a != b:
-        parent[b] = a
+    if root_a != root_b:
+        parent[root_b] = root_a
         return True
 
     return False
 
 
-total = 0
+total_cost = 0
 count = 0
 
-print("Edges in MST:")
+print("\nEdges in Minimum Spanning Tree:")
 
-for w, u, v in edges:
+for weight, u, v in edge_list:
+
     if union(u, v):
-        print(u, "--", v, "=", w)
-        total += w
+        print(u, "--", v, "=", weight)
+        total_cost += weight
         count += 1
 
-        if count == n - 1:
+        if count == vertices - 1:
             break
 
-print("Minimum Cost =", total)
 
+print("Minimum Cost =", total_cost)
 
-//Minimum Spanning Tree (MST)
-# MST using Prim's Algorithm
+//Dijkstra algo
+vertices = int(input("Enter number of vertices: "))
+edges = int(input("Enter number of edges: "))
 
-n = int(input("Enter number of vertices: "))
+graph = [[] for _ in range(vertices)]
 
-graph = []
+for i in range(edges):
+    u = int(input("Enter source vertex: "))
+    v = int(input("Enter destination vertex: "))
+    weight = int(input("Enter weight: "))
 
-print("Enter adjacency matrix:")
-for _ in range(n):
-    graph.append(list(map(int, input().split())))
+    graph[u].append((v, weight))
+    graph[v].append((u, weight))
 
-visited = [False] * n
-visited[0] = True
-
-total = 0
-
-print("Minimum Spanning Tree:")
-
-for _ in range(n - 1):
-    minimum = float('inf')
-    u = v = -1
-
-    for i in range(n):
-        if visited[i]:
-            for j in range(n):
-                if not visited[j] and graph[i][j] != 0:
-                    if graph[i][j] < minimum:
-                        minimum = graph[i][j]
-                        u = i
-                        v = j
-
-    print(u, "--", v, "=", minimum)
-    total += minimum
-    visited[v] = True
-
-print("Total MST Cost =", total)
-
-
-//Dijkstra's Algorithm
-n = int(input("Enter number of vertices: "))
-
-graph = []
-
-print("Enter adjacency matrix:")
-for _ in range(n):
-    graph.append(list(map(int, input().split())))
 
 source = int(input("Enter source vertex: "))
 
-distance = [float('inf')] * n
-visited = [False] * n
+distance = [float('inf')] * vertices
+visited = [False] * vertices
 
 distance[source] = 0
 
-for _ in range(n):
-    u = -1
-    minimum = float('inf')
+for _ in range(vertices):
 
-    for i in range(n):
-        if not visited[i] and distance[i] < minimum:
-            minimum = distance[i]
-            u = i
+    min_distance = float('inf')
+    current = -1
 
-    if u == -1:
+    # Find unvisited vertex with minimum distance
+    for i in range(vertices):
+        if not visited[i] and distance[i] < min_distance:
+            min_distance = distance[i]
+            current = i
+
+    if current == -1:
         break
 
-    visited[u] = True
+    visited[current] = True
 
-    for v in range(n):
-        if graph[u][v] != 0:
-            new_distance = distance[u] + graph[u][v]
+    # Update neighbouring vertices
+    for neighbor, weight in graph[current]:
 
-            if new_distance < distance[v]:
-                distance[v] = new_distance
+        new_distance = distance[current] + weight
 
-print("Shortest Distances:")
-
-for i in range(n):
-    print(source, "to", i, "=", distance[i])
+        if new_distance < distance[neighbor]:
+            distance[neighbor] = new_distance
 
 
-//Bellman-Ford Algorithm
-n = int(input("Enter number of vertices: "))
-e = int(input("Enter number of edges: "))
+print("\nShortest distances from vertex", source)
 
-edges = []
+for i in range(vertices):
+    print("Vertex", i, "=", distance[i])
 
-for _ in range(e):
-    u, v, w = map(int, input("Enter u v weight: ").split())
-    edges.append((u, v, w))
+//Bellman ford
+vertices = int(input("Enter number of vertices: "))
+edges = int(input("Enter number of edges: "))
+
+edge_list = []
+
+for i in range(edges):
+    u = int(input("Enter source vertex: "))
+    v = int(input("Enter destination vertex: "))
+    weight = int(input("Enter weight: "))
+
+    edge_list.append((u, v, weight))
 
 source = int(input("Enter source vertex: "))
 
-distance = [float('inf')] * n
+distance = [float('inf')] * vertices
 distance[source] = 0
 
-for _ in range(n - 1):
-    for u, v, w in edges:
-        if distance[u] != float('inf'):
-            if distance[u] + w < distance[v]:
-                distance[v] = distance[u] + w
+# Relax all edges V-1 times
+for i in range(vertices - 1):
 
+    for u, v, weight in edge_list:
+
+        if distance[u] != float('inf') and \
+           distance[u] + weight < distance[v]:
+
+            distance[v] = distance[u] + weight
+
+
+# Check for negative weight cycle
 negative_cycle = False
 
-for u, v, w in edges:
-    if distance[u] != float('inf') and distance[u] + w < distance[v]:
+for u, v, weight in edge_list:
+
+    if distance[u] != float('inf') and \
+       distance[u] + weight < distance[v]:
+
         negative_cycle = True
         break
 
+
 if negative_cycle:
     print("Negative weight cycle exists")
+
 else:
-    print("Shortest distances:")
-    for i in range(n):
-        print(source, "to", i, "=", distance[i])
+    print("\nShortest distances from vertex", source)
 
+    for i in range(vertices):
+        print("Vertex", i, "=", distance[i])
 
-//Fibonacci Series
+//fibonacci series
 n = int(input("Enter number of terms: "))
 
 a = 0
@@ -479,9 +613,8 @@ for i in range(n):
     print(a, end=" ")
     a, b = b, a + b
 
-
-    //University Attendance Analysis
-   students = {}
+//University Attendance Analysis
+students = {}
 
 n = int(input("Enter number of students: "))
 
@@ -500,8 +633,7 @@ for name, attendance in students.items():
 
     print(name, ":", attendance, "% -", status)
 
-
-//Hospital Emergency Monitoring  
+//Hospital Emergency Monitoring
 patients = []
 
 n = int(input("Enter number of patients: "))
@@ -526,9 +658,8 @@ for severity, name in patients:
 
     print(name, "- Severity:", severity, "-", priority)
 
-
-  //Student Name Search
-  students = []
+//Student Name Search
+students = []
 
 n = int(input("Enter number of students: "))
 
@@ -543,13 +674,11 @@ if search_name in students:
 else:
     print("Student Not Found")
 
-
 //Library Book Code Validator
 import re
 
 code = input("Enter book code: ")
 
-# Format: LIB-1234
 pattern = r"^LIB-\d{4}$"
 
 if re.match(pattern, code):
