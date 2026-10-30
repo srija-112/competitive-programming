@@ -685,3 +685,175 @@ if re.match(pattern, code):
     print("Valid Book Code")
 else:
     print("Invalid Book Code")
+
+
+
+//XOR Swap
+a = int(input("Enter a: "))
+b = int(input("Enter b: "))
+
+a = a ^ b
+b = a ^ b
+a = a ^ b
+
+print("After swapping:")
+print("a =", a)
+print("b =", b)
+
+
+//Single Number
+def singleNumber(nums):
+    result = 0
+
+    for num in nums:
+        result ^= num
+
+    return result
+
+
+nums = list(map(int, input("Enter numbers: ").split()))
+print("Single number:", singleNumber(nums))
+
+
+//Remove Duplicates Using Hash Set
+def removeDuplicates(nums):
+    seen = set()
+    result = []
+
+    for num in nums:
+        if num not in seen:
+            seen.add(num)
+            result.append(num)
+
+    return result
+
+
+nums = list(map(int, input("Enter numbers: ").split()))
+print("After removing duplicates:", removeDuplicates(nums))
+
+
+//Binary Search in Descending Order
+def binarySearch(nums, target):
+    left = 0
+    right = len(nums) - 1
+
+    while left <= right:
+        mid = (left + right) // 2
+
+        if nums[mid] == target:
+            return mid
+
+        elif nums[mid] < target:
+            right = mid - 1
+
+        else:
+            left = mid + 1
+
+    return -1
+
+
+nums = list(map(int, input("Enter descending order numbers: ").split()))
+target = int(input("Enter target: "))
+
+print("Index:", binarySearch(nums, target))
+
+
+//Two Sum Using Hash Map
+def twoSum(nums, target):
+    seen = {}
+
+    for i, num in enumerate(nums):
+        complement = target - num
+
+        if complement in seen:
+            return [seen[complement], i]
+
+        seen[num] = i
+
+    return []
+
+
+nums = list(map(int, input("Enter numbers: ").split()))
+target = int(input("Enter target: "))
+
+print("Indices:", twoSum(nums, target))
+
+
+//Valid Parentheses Using Stack
+def isValid(s):
+    stack = []
+    pairs = {
+        ')': '(',
+        '}': '{',
+        ']': '['
+    }
+
+    for ch in s:
+        if ch in '({[':
+            stack.append(ch)
+
+        elif ch in ')}]':
+            if not stack or stack[-1] != pairs[ch]:
+                return False
+
+            stack.pop()
+
+    return len(stack) == 0
+
+
+s = input("Enter parentheses: ")
+
+if isValid(s):
+    print("Valid")
+else:
+    print("Invalid")
+
+
+
+//Fibonacci Using Tabulation
+def fibonacci(n):
+    if n <= 1:
+        return n
+
+    dp = [0] * (n + 1)
+    dp[0] = 0
+    dp[1] = 1
+
+    for i in range(2, n + 1):
+        dp[i] = dp[i - 1] + dp[i - 2]
+
+    return dp[n]
+
+
+n = int(input("Enter n: "))
+print("Fibonacci number:", fibonacci(n))
+
+
+
+//Activity Selection
+def activitySelection(start, finish):
+    activities = sorted(
+        zip(start, finish),
+        key=lambda x: x[1]
+    )
+
+    selected = []
+    last_finish = float('-inf')
+
+    for s, f in activities:
+        if s >= last_finish:
+            selected.append((s, f))
+            last_finish = f
+
+    return selected
+
+
+start = list(map(int, input("Enter start times: ").split()))
+finish = list(map(int, input("Enter finish times: ").split()))
+
+if len(start) != len(finish):
+    print("Error: Start and finish times must have equal length.")
+else:
+    result = activitySelection(start, finish)
+    print("Selected activities:", result)
+    print("Maximum activities:", len(result))
